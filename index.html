@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YesNoGame</title>
+  <title>Ja oder Nein?</title>
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -97,9 +99,10 @@
     #noBtn {
       background: #ef4444;
       color: white;
-      position: fixed;
-      left: 58%;
-      top: 56%;
+      position: absolute;
+      left: 62%;
+      top: 42px;
+      transform: translateX(-50%);
       z-index: 10;
     }
 
@@ -134,7 +137,7 @@
 <body>
   <main class="card" id="mainCard">
     <h1>Willst du?</h1>
-    <p>Zoggn ?.</p>
+    <p>Beantworte die wichtigste Ja/Nein-Frage.</p>
 
     <div class="buttons">
       <button id="yesBtn">Ja</button>
@@ -155,7 +158,7 @@
       <button class="dayBtn">Nächste Woche</button>
     </div>
 
-    <div id="finalMessage" style="display:none; margin-top:25px; font-size:1.4rem; font-weight:700; color:#3d6f99; white-space: pre-line;">
+    <div id="finalMessage" style="display:none; margin-top:25px; font-size:1.4rem; font-weight:700; color:#3d6f99;">
       Gute Wahl 😄
     </div>
   </main>
@@ -168,17 +171,27 @@
     const wishCard = document.getElementById("wishCard");
     const dayButtons = document.querySelectorAll(".dayBtn");
     const finalMessage = document.getElementById("finalMessage");
+
     const safeDistance = 115;
 
+    let noButtonActivated = false;
+
     function moveNoButtonAway(pointerX, pointerY) {
+      if (!noButtonActivated) {
+        noButtonActivated = true;
+        noBtn.style.position = "fixed";
+      }
       const rect = noBtn.getBoundingClientRect();
       const buttonCenterX = rect.left + rect.width / 2;
       const buttonCenterY = rect.top + rect.height / 2;
+
       const distance = Math.hypot(pointerX - buttonCenterX, pointerY - buttonCenterY);
+
       if (distance > safeDistance) return;
 
       const maxX = window.innerWidth - rect.width - 12;
       const maxY = window.innerHeight - rect.height - 12;
+
       let newX;
       let newY;
       let tries = 0;
@@ -226,7 +239,8 @@
     dayButtons.forEach((button) => {
       button.addEventListener("click", () => {
         finalMessage.style.display = "block";
-        finalMessage.textContent = `Perfekt ✨\nMelde dich einfach bei mir wegen ${button.textContent} 😄`;
+        finalMessage.textContent = `Perfekt ✨
+Melde dich einfach bei mir wegen ${button.textContent} 😄`;
       });
     });
   </script>
