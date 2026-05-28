@@ -106,31 +106,32 @@
       z-index: 10;
     }
 
-    #message {
-      display: none;
-      margin-top: 20px;
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: #db2777;
-    }
-
-    .day-buttons {
-      display: flex;
-      flex-wrap: wrap;
+    .day-list {
+      display: grid;
       gap: 12px;
-      justify-content: center;
-      margin-top: 20px;
+      margin: 22px auto 24px;
+      max-width: 320px;
+      padding: 0;
+      list-style: none;
     }
 
-    .dayBtn {
+    .day-list li {
       background: #6eaee6;
       color: white;
-      min-width: 140px;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
     }
 
-    .dayBtn:hover {
-      transform: scale(1.06);
-      box-shadow: 0 14px 26px rgba(110, 174, 230, 0.35);
+    .contact-note {
+      margin: 18px auto 0;
+      max-width: 360px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #3d6f99;
+      line-height: 1.45;
     }
   </style>
 </head>
@@ -143,34 +144,29 @@
       <button id="yesBtn">Ja</button>
       <button id="noBtn">Nein</button>
     </div>
-
-    <div id="message">Wusste ich doch 😄</div>
   </main>
 
   <main class="card" id="wishCard" style="display: none;">
     <h1>Perfekt ✨</h1>
     <p>Wann passt es dir am besten?</p>
 
-    <div class="day-buttons">
-      <button class="dayBtn">Freitag Abend</button>
-      <button class="dayBtn">Samstag</button>
-      <button class="dayBtn">Sonntag</button>
-      <button class="dayBtn">Nächste Woche</button>
-    </div>
+    <ul class="day-list">
+      <li>Freitag Abend</li>
+      <li>Samstag</li>
+      <li>Sonntag</li>
+      <li>Nächste Woche</li>
+    </ul>
 
-    <div id="finalMessage" style="display:none; margin-top:25px; font-size:1.4rem; font-weight:700; color:#3d6f99;">
-      Gute Wahl 😄
+    <div class="contact-note">
+      Melde dich einfach bei mir, welcher der Tage dir am besten passt 😄
     </div>
   </main>
 
   <script>
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
-    const message = document.getElementById("message");
     const mainCard = document.getElementById("mainCard");
     const wishCard = document.getElementById("wishCard");
-    const dayButtons = document.querySelectorAll(".dayBtn");
-    const finalMessage = document.getElementById("finalMessage");
 
     const safeDistance = 115;
 
@@ -181,6 +177,7 @@
         noButtonActivated = true;
         noBtn.style.position = "fixed";
       }
+
       const rect = noBtn.getBoundingClientRect();
       const buttonCenterX = rect.left + rect.width / 2;
       const buttonCenterY = rect.top + rect.height / 2;
@@ -206,11 +203,11 @@
       noBtn.style.top = `${newY}px`;
     }
 
-    document.addEventListener("mousemove", (event) => {
+    noBtn.addEventListener("mousemove", (event) => {
       moveNoButtonAway(event.clientX, event.clientY);
     });
 
-    document.addEventListener("touchmove", (event) => {
+    noBtn.addEventListener("touchstart", (event) => {
       const touch = event.touches[0];
       if (touch) moveNoButtonAway(touch.clientX, touch.clientY);
     }, { passive: true });
@@ -226,22 +223,9 @@
     });
 
     yesBtn.addEventListener("click", () => {
-      message.style.display = "block";
-      yesBtn.textContent = "Natürlich Ja!";
       noBtn.style.display = "none";
-
-      setTimeout(() => {
-        mainCard.style.display = "none";
-        wishCard.style.display = "block";
-      }, 1200);
-    });
-
-    dayButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        finalMessage.style.display = "block";
-        finalMessage.textContent = `Perfekt ✨
-Melde dich einfach bei mir wegen ${button.textContent} 😄`;
-      });
+      mainCard.style.display = "none";
+      wishCard.style.display = "block";
     });
   </script>
 </body>
