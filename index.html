@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YesNoGame</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #bddfff, #8fc5f5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .card {
+      width: min(92vw, 520px);
+      min-height: 300px;
+      background: linear-gradient(145deg, #eef7ff, #dbeeff);
+      border-radius: 34px;
+      padding: 42px 28px;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+      position: relative;
+      border: 5px solid rgba(86, 133, 176, 0.9);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border-radius: 24px;
+      border: 3px dashed rgba(255,255,255,0.95);
+      pointer-events: none;
+    }
+
+    .card::after {
+      content: "✦ ✧ ✦";
+      position: absolute;
+      top: 14px;
+      right: 20px;
+      font-size: 1.3rem;
+      color: rgba(70, 110, 150, 0.85);
+      letter-spacing: 6px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      color: #3d6f99;
+      text-shadow: 2px 2px 0 rgba(255,255,255,0.7);
+    }
+
+    p {
+      margin: 0 0 34px;
+      font-size: 1.15rem;
+      color: #5f7994;
+    }
+
+    .buttons {
+      position: relative;
+      height: 130px;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 16px 34px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, left 0.2s ease, top 0.2s ease;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      user-select: none;
+    }
+
+    #yesBtn {
+      background: #22c55e;
+      color: white;
+      position: absolute;
+      left: 28%;
+      top: 42px;
+      transform: translateX(-50%);
+    }
+
+    #yesBtn:hover {
+      transform: translateX(-50%) scale(1.08);
+      box-shadow: 0 14px 26px rgba(34, 197, 94, 0.35);
+    }
+
+    #noBtn {
+      background: #ef4444;
+      color: white;
+      position: fixed;
+      left: 58%;
+      top: 56%;
+      z-index: 10;
+    }
+
+    #message {
+      display: none;
+      margin-top: 20px;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #db2777;
+    }
+
+    .day-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .dayBtn {
+      background: #6eaee6;
+      color: white;
+      min-width: 140px;
+    }
+
+    .dayBtn:hover {
+      transform: scale(1.06);
+      box-shadow: 0 14px 26px rgba(110, 174, 230, 0.35);
+    }
+  </style>
+</head>
+<body>
+  <main class="card" id="mainCard">
+    <h1>Willst du?</h1>
+    <p>Beantworte die wichtigste Ja/Nein-Frage.</p>
+
+    <div class="buttons">
+      <button id="yesBtn">Ja</button>
+      <button id="noBtn">Nein</button>
+    </div>
+
+    <div id="message">Wusste ich doch 😄</div>
+  </main>
+
+  <main class="card" id="wishCard" style="display: none;">
+    <h1>Perfekt ✨</h1>
+    <p>Wann passt es dir am besten?</p>
+
+    <div class="day-buttons">
+      <button class="dayBtn">Freitag Abend</button>
+      <button class="dayBtn">Samstag</button>
+      <button class="dayBtn">Sonntag</button>
+      <button class="dayBtn">Nächste Woche</button>
+    </div>
+
+    <div id="finalMessage" style="display:none; margin-top:25px; font-size:1.4rem; font-weight:700; color:#3d6f99; white-space: pre-line;">
+      Gute Wahl 😄
+    </div>
+  </main>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const message = document.getElementById("message");
+    const mainCard = document.getElementById("mainCard");
+    const wishCard = document.getElementById("wishCard");
+    const dayButtons = document.querySelectorAll(".dayBtn");
+    const finalMessage = document.getElementById("finalMessage");
+    const safeDistance = 115;
+
+    function moveNoButtonAway(pointerX, pointerY) {
+      const rect = noBtn.getBoundingClientRect();
+      const buttonCenterX = rect.left + rect.width / 2;
+      const buttonCenterY = rect.top + rect.height / 2;
+      const distance = Math.hypot(pointerX - buttonCenterX, pointerY - buttonCenterY);
+      if (distance > safeDistance) return;
+
+      const maxX = window.innerWidth - rect.width - 12;
+      const maxY = window.innerHeight - rect.height - 12;
+      let newX;
+      let newY;
+      let tries = 0;
+
+      do {
+        newX = Math.random() * maxX + 6;
+        newY = Math.random() * maxY + 6;
+        tries++;
+      } while (Math.hypot(pointerX - newX, pointerY - newY) < safeDistance * 1.4 && tries < 60);
+
+      noBtn.style.left = `${newX}px`;
+      noBtn.style.top = `${newY}px`;
+    }
+
+    document.addEventListener("mousemove", (event) => {
+      moveNoButtonAway(event.clientX, event.clientY);
+    });
+
+    document.addEventListener("touchmove", (event) => {
+      const touch = event.touches[0];
+      if (touch) moveNoButtonAway(touch.clientX, touch.clientY);
+    }, { passive: true });
+
+    noBtn.addEventListener("mouseenter", () => {
+      const rect = noBtn.getBoundingClientRect();
+      moveNoButtonAway(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    });
+
+    noBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      moveNoButtonAway(event.clientX, event.clientY);
+    });
+
+    yesBtn.addEventListener("click", () => {
+      message.style.display = "block";
+      yesBtn.textContent = "Natürlich Ja!";
+      noBtn.style.display = "none";
+
+      setTimeout(() => {
+        mainCard.style.display = "none";
+        wishCard.style.display = "block";
+      }, 1200);
+    });
+
+    dayButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        finalMessage.style.display = "block";
+        finalMessage.textContent = `Perfekt ✨\nMelde dich einfach bei mir wegen ${button.textContent} 😄`;
+      });
+    });
+  </script>
+</body>
+</html>
