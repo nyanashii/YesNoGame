@@ -227,15 +227,13 @@
     const noTexts = [
       "Sicher? 🤔",
       "Wirklich? 🥺",
-      "Überleg nochmal 😇",
+      "Nochmal? 😇",
       "Ganz sicher? 😳",
       "Bitte? 🥹",
-      "Denk nochmal nach 💭",
+      "Denk nach 💭",
       "Letzte Chance 😅",
-      "Du willst doch 😏",
       "Na komm 😄",
-      "JA wäre einfacher 😉",
-      "Okay, ich geb nicht auf 😌"
+      "JA 😉"
     ];
 
     let noButtonActivated = false;
@@ -281,16 +279,24 @@
       makeYesBigger();
 
       const updatedRect = noBtn.getBoundingClientRect();
-      const maxX = window.innerWidth - updatedRect.width - 12;
-      const maxY = window.innerHeight - updatedRect.height - 12;
+      const padding = 30;
+
+      const minX = padding;
+      const minY = padding;
+
+      const maxX =
+      window.innerWidth - updatedRect.width - padding;
+
+      const maxY =
+      window.innerHeight - updatedRect.height - padding;
 
       let newX;
       let newY;
       let tries = 0;
 
       do {
-        newX = Math.random() * maxX + 6;
-        newY = Math.random() * maxY + 6;
+        newX = minX + Math.random() * (0, maxX - minX);
+        newY = minY + Math.random() * (0, maxY - minY);
         tries++;
       } while (Math.hypot(pointerX - newX, pointerY - newY) < safeDistance * 1.5 && tries < 80);
 
