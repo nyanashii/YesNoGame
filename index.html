@@ -173,6 +173,7 @@
 
     <div class="choice-grid">
       <button class="choice-btn activity-btn" data-activity="🍝 Essen gehen">🍝 Essen gehen</button>
+      <button class="choice-btn activity-btn" data-activity="👨‍🍳 Gemeinsam kochen">👨‍🍳 Gemeinsam kochen</button>
       <button class="choice-btn activity-btn" data-activity="🚶 Spazieren">🚶 Spazieren</button>
       <button class="choice-btn activity-btn" data-activity="🛍️ Shoppingbummel">🛍️ Shoppingbummel</button>
       <button class="choice-btn activity-btn" data-activity="🎬 Kino">🎬 Kino</button>
@@ -332,11 +333,21 @@
       button.addEventListener("click", () => {
         selectedDay = button.dataset.day;
         summaryText.innerHTML = `
-          💙 Ich freue mich sehr!<br><br>
-          Dann steht das jetzt fest:<br>
-          Wir machen <strong>${selectedActivity}</strong><br>
-          an deinem Wunschtag <strong>${selectedDay}</strong> 🗓️<br><br>
-          Ich freue mich schon darauf 😊
+          summaryText.innerHTML = `
+  💙 Danke für deine Auswahl!<br><br>
+
+  Du würdest also am liebsten:<br><br>
+
+  <strong>${selectedActivity}</strong><br><br>
+
+  an einem:<br><br>
+
+  <strong>${selectedDay} 📅</strong><br><br>
+
+  machen 😊<br><br>
+
+  Jetzt fehlt nur noch deine Nachricht an mich ❤️
+`;
         `;
         showCard(finalCard);
       });
