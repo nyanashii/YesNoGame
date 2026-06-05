@@ -332,8 +332,7 @@
     dayButtons.forEach(button => {
       button.addEventListener("click", () => {
         selectedDay = button.dataset.day;
-        summaryText.innerHTML = `
-          summaryText.innerHTML = `
+summaryText.innerHTML = `
   💙 Danke für deine Auswahl!<br><br>
 
   Du würdest also am liebsten:<br><br>
@@ -347,7 +346,6 @@
   machen 😊<br><br>
 
   Jetzt fehlt nur noch deine Nachricht an mich ❤️
-`;
         `;
         showCard(finalCard);
       });
