@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ja oder Nein?</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -21,8 +19,8 @@
     }
 
     .card {
-      width: min(92vw, 560px);
-      min-height: 330px;
+      width: min(92vw, 580px);
+      min-height: 340px;
       background: linear-gradient(145deg, #eef7ff, #dbeeff);
       border-radius: 34px;
       padding: 46px 28px;
@@ -61,7 +59,7 @@
     }
 
     p {
-      margin: 0 0 34px;
+      margin: 0 0 28px;
       font-size: 1.15rem;
       color: #5f7994;
     }
@@ -94,8 +92,9 @@
       z-index: 3;
     }
 
-    #yesBtn:hover {
-      box-shadow: 0 14px 26px rgba(34, 197, 94, 0.35);
+    #yesBtn:hover, .choice-btn:hover {
+      transform: scale(1.06);
+      box-shadow: 0 14px 26px rgba(34, 197, 94, 0.25);
     }
 
     #noBtn {
@@ -117,41 +116,46 @@
       transition: opacity 0.2s ease;
     }
 
-    .hint.show {
-      opacity: 1;
-    }
+    .hint.show { opacity: 1; }
 
-    .day-list {
+    .choice-grid {
       display: grid;
       gap: 12px;
-      margin: 22px auto 24px;
-      max-width: 320px;
-      padding: 0;
-      list-style: none;
+      margin: 24px auto 0;
+      max-width: 370px;
     }
 
-    .day-list li {
+    .choice-btn {
       background: #6eaee6;
       color: white;
-      border-radius: 999px;
-      padding: 14px 22px;
-      font-size: 1.15rem;
-      font-weight: 700;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+      width: 100%;
     }
 
-    .contact-note {
-      margin: 18px auto 0;
-      max-width: 380px;
-      font-size: 1.2rem;
-      font-weight: 700;
+    .summary-box {
+      background: rgba(255, 255, 255, 0.65);
+      border-radius: 24px;
+      padding: 22px;
+      margin: 22px auto;
+      max-width: 430px;
       color: #3d6f99;
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.55;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .screenshot-note {
+      margin: 18px auto 0;
+      max-width: 430px;
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: #5f7994;
       line-height: 1.45;
     }
   </style>
 </head>
 <body>
-  <main class="card" id="mainCard">
+  <main class="card" id="questionCard">
     <h1>💙 Würdest du mit mir ausgehen? 💙</h1>
     <p>👉 Überlege es dir gut 😇</p>
 
@@ -163,29 +167,60 @@
     <div class="hint" id="hintText">Hmm... 😏</div>
   </main>
 
-  <main class="card" id="wishCard" style="display: none;">
-    <h1>✨ Das freut mich! ✨</h1>
-    <p>Wann passt es dir am besten? 😊</p>
+  <main class="card" id="activityCard" style="display: none;">
+    <h1>✨ Was wollen wir machen? ✨</h1>
+    <p>Such dir einfach etwas Schönes aus 😊</p>
 
-    <ul class="day-list">
-      <li>🌆 Freitag Abend</li>
-      <li>☀️ Samstag</li>
-      <li>🌤️ Sonntag</li>
-      <li>📅 Nächste Woche</li>
-    </ul>
+    <div class="choice-grid">
+      <button class="choice-btn activity-btn" data-activity="🍝 Essen gehen">🍝 Essen gehen</button>
+      <button class="choice-btn activity-btn" data-activity="🚶 Spazieren">🚶 Spazieren</button>
+      <button class="choice-btn activity-btn" data-activity="🛍️ Shoppingbummel">🛍️ Shoppingbummel</button>
+      <button class="choice-btn activity-btn" data-activity="🎬 Kino">🎬 Kino</button>
+      <button class="choice-btn activity-btn" data-activity="❤️ Alles">❤️ Alles?</button>
+    </div>
+  </main>
 
-    <div class="contact-note">
-      💌 Melde dich einfach bei mir,<br>
-      welcher der Tage dir am besten passt 😊
+  <main class="card" id="dayCard" style="display: none;">
+    <h1>📅 Dein Wunschtag?</h1>
+    <p>Welcher Tag passt dir am besten? 😄</p>
+
+    <div class="choice-grid">
+      <button class="choice-btn day-btn" data-day="Montag">Montag</button>
+      <button class="choice-btn day-btn" data-day="Dienstag">Dienstag</button>
+      <button class="choice-btn day-btn" data-day="Mittwoch">Mittwoch</button>
+      <button class="choice-btn day-btn" data-day="Donnerstag">Donnerstag</button>
+      <button class="choice-btn day-btn" data-day="Freitag">Freitag</button>
+      <button class="choice-btn day-btn" data-day="Samstag">Samstag</button>
+      <button class="choice-btn day-btn" data-day="Sonntag">Sonntag</button>
+    </div>
+  </main>
+
+  <main class="card" id="finalCard" style="display: none;">
+    <h1>🎉 Perfekt! 🎉</h1>
+
+    <div class="summary-box" id="summaryText"></div>
+
+    <div class="screenshot-note">
+      📸 Schick mir bitte ein Bild oder einen Screenshot von dieser Seite,<br>
+      damit ich weiß, wofür du dich entschieden hast ❤️
     </div>
   </main>
 
   <script>
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
-    const mainCard = document.getElementById("mainCard");
-    const wishCard = document.getElementById("wishCard");
+    const questionCard = document.getElementById("questionCard");
+    const activityCard = document.getElementById("activityCard");
+    const dayCard = document.getElementById("dayCard");
+    const finalCard = document.getElementById("finalCard");
     const hintText = document.getElementById("hintText");
+    const summaryText = document.getElementById("summaryText");
+
+    const activityButtons = document.querySelectorAll(".activity-btn");
+    const dayButtons = document.querySelectorAll(".day-btn");
+
+    let selectedActivity = "";
+    let selectedDay = "";
 
     const safeDistance = 120;
     const noTexts = [
@@ -205,17 +240,19 @@
     let noButtonActivated = false;
     let noAttempts = 0;
 
+    function showCard(cardToShow) {
+      [questionCard, activityCard, dayCard, finalCard].forEach(card => {
+        card.style.display = "none";
+      });
+      cardToShow.style.display = "block";
+    }
+
     function makeYesBigger() {
       const scale = Math.min(1 + noAttempts * 0.13, 2.35);
       yesBtn.style.setProperty("--yes-scale", scale);
 
-      if (noAttempts >= 5) {
-        yesBtn.textContent = "JA 😍";
-      }
-
-      if (noAttempts >= 9) {
-        yesBtn.textContent = "JAAAA 💙";
-      }
+      if (noAttempts >= 5) yesBtn.textContent = "JA 😍";
+      if (noAttempts >= 9) yesBtn.textContent = "JAAAA 💙";
     }
 
     function updateNoText() {
@@ -281,8 +318,28 @@
 
     yesBtn.addEventListener("click", () => {
       noBtn.style.display = "none";
-      mainCard.style.display = "none";
-      wishCard.style.display = "block";
+      showCard(activityCard);
+    });
+
+    activityButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        selectedActivity = button.dataset.activity;
+        showCard(dayCard);
+      });
+    });
+
+    dayButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        selectedDay = button.dataset.day;
+        summaryText.innerHTML = `
+          💙 Ich freue mich sehr!<br><br>
+          Dann steht das jetzt fest:<br>
+          Wir machen <strong>${selectedActivity}</strong><br>
+          an deinem Wunschtag <strong>${selectedDay}</strong> 🗓️<br><br>
+          Ich freue mich schon darauf 😊
+        `;
+        showCard(finalCard);
+      });
     });
   </script>
 </body>
