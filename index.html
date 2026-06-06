@@ -152,6 +152,25 @@
       color: #5f7994;
       line-height: 1.45;
     }
+
+    textarea {
+      width: 100%;
+      max-width: 430px;
+      min-height: 110px;
+      margin-top: 18px;
+      padding: 16px;
+      border: 3px solid rgba(86, 133, 176, 0.45);
+      border-radius: 18px;
+      font-size: 1rem;
+      font-family: Arial, sans-serif;
+      resize: vertical;
+    }
+    
+    #copyBtn {
+      margin-top: 14px;
+      background: #22c55e;
+      color: white;
+  }
   </style>
 </head>
 <body>
@@ -206,6 +225,9 @@
       📸 Schick mir bitte ein Bild oder einen Screenshot von dieser Seite,<br>
       damit ich weiß, wofür du dich entschieden hast ❤️
     </div>
+    <textarea id="userMessage" placeholder="Hier kannst du mir noch etwas schreiben 😊"></textarea>
+
+    <button id="copyBtn">💌 Auswahl + Nachricht kopieren</button>
   </main>
 
   <script>
@@ -217,6 +239,8 @@
     const finalCard = document.getElementById("finalCard");
     const hintText = document.getElementById("hintText");
     const summaryText = document.getElementById("summaryText");
+    const userMessage = document.getElementById("userMessage");
+    const copyBtn = document.getElementById("copyBtn");
 
     const activityButtons = document.querySelectorAll(".activity-btn");
     const dayButtons = document.querySelectorAll(".day-btn");
@@ -357,6 +381,20 @@ summaryText.innerHTML = `
         showCard(finalCard);
       });
     });
+    
+  copyBtn.addEventListener("click", async () => {
+  const textToCopy = `💙 Meine Auswahl 💙
+
+🎯 Aktivität: ${selectedActivity}
+📅 Tag: ${selectedDay}
+
+💌 Nachricht:
+${userMessage.value || "Keine zusätzliche Nachricht."}`;
+
+  await navigator.clipboard.writeText(textToCopy);
+
+  copyBtn.textContent = "✅ Kopiert!";
+});
   </script>
 </body>
 </html>
