@@ -198,8 +198,19 @@
       <button class="choice-btn activity-btn" data-activity="🚶 Spazieren">🚶 Spazieren</button>
       <button class="choice-btn activity-btn" data-activity="🛍️ Shoppingbummel">🛍️ Shoppingbummel</button>
       <button class="choice-btn activity-btn" data-activity="🎬 Kino">🎬 Kino</button>
-      <button class="choice-btn activity-btn" data-activity="💭 Sonstiges">💭 Sonstiges</button>
       <button class="choice-btn activity-btn" data-activity="❤️ Alles">❤️ Alles?</button>
+      <button class="choice-btn" id="otherActivityBtn">💭 Sonstiges</button>
+
+      <input
+        id="otherActivityInput"
+        type="text"
+        placeholder="Eigene Aktivität eingeben 😊"
+        style="display:none; padding:14px; border-radius:16px; border:3px solid rgba(86,133,176,0.45); font-size:1rem;"
+      />
+
+      <button class="choice-btn" id="saveOtherActivityBtn" style="display:none;">
+        Weiter 💙
+      </button>
     </div>
   </main>
 
@@ -242,6 +253,10 @@
     const summaryText = document.getElementById("summaryText");
     const userMessage = document.getElementById("userMessage");
     const copyBtn = document.getElementById("copyBtn");
+
+    const otherActivityBtn = document.getElementById("otherActivityBtn");
+    const otherActivityInput = document.getElementById("otherActivityInput");
+    const saveOtherActivityBtn = document.getElementById("saveOtherActivityBtn");
 
     const activityButtons = document.querySelectorAll(".activity-btn");
     const dayButtons = document.querySelectorAll(".day-btn");
@@ -359,6 +374,24 @@
         selectedActivity = button.dataset.activity;
         showCard(dayCard);
       });
+    });
+
+    otherActivityBtn.addEventListener("click", () => {
+      otherActivityInput.style.display = "block";
+      saveOtherActivityBtn.style.display = "block";
+      otherActivityInput.focus();
+    });
+
+    saveOtherActivityBtn.addEventListener("click", () => {
+      const customActivity = otherActivityInput.value.trim();
+
+      if (!customActivity) {
+        otherActivityInput.placeholder = "Bitte etwas eingeben 😊";
+        return;
+      }
+
+      selectedActivity = `💭 ${customActivity}`;
+      showCard(dayCard);
     });
 
     dayButtons.forEach(button => {
