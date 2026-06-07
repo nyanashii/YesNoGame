@@ -184,8 +184,6 @@
       <button id="yesBtn">Ja 😄</button>
       <button id="noBtn">Nein</button>
     </div>
-
-    <div class="hint" id="hintText">Hmm... 😏</div>
   </main>
 
   <main class="card" id="activityCard" style="display: none;">
@@ -234,9 +232,6 @@
 
     <div class="summary-box" id="summaryText"></div>
 
-    <div class="screenshot-note">
-      Schreibe mir gerne noch etwas dazu ❤️
-    </div>
     <textarea id="userMessage" placeholder="Hier kannst du mir noch etwas schreiben 😊"></textarea>
 
     <button id="copyBtn">💌 kopieren</button>
@@ -249,7 +244,7 @@
     const activityCard = document.getElementById("activityCard");
     const dayCard = document.getElementById("dayCard");
     const finalCard = document.getElementById("finalCard");
-    const hintText = document.getElementById("hintText");
+    const hintText = null;
     const summaryText = document.getElementById("summaryText");
     const userMessage = document.getElementById("userMessage");
     const copyBtn = document.getElementById("copyBtn");
@@ -298,8 +293,10 @@
     function updateNoText() {
       const text = noTexts[Math.min(noAttempts, noTexts.length - 1)];
       noBtn.textContent = text;
-      hintText.textContent = text;
-      hintText.classList.add("show");
+      if (hintText) {
+        hintText.textContent = text;
+        hintText.classList.add("show");
+      }
     }
 
     function moveNoButtonAway(pointerX, pointerY) {
